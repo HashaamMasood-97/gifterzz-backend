@@ -34,7 +34,11 @@ users.post("/register", (req, res) => {
               res.json({ status: user.email + "! Registered" });
             })
             .catch((err) => {
-              res.send("error: " + err);
+              if (!req.body.email || !req.body.password) {
+                res.send("Error: Email or Password not found");
+              } else {
+                res.send("error :" + err);
+              }
             });
         });
       } else {
@@ -67,10 +71,15 @@ users.post("/login", (req, res) => {
           /*    let token = jwt.sign(payload, process.env.SECRET_KEY, {
             expiresIn: 1440
           })  */
-          res.json({
-            status: user.first_name + " " + user.last_name + "! Logged In",
-          });
-          res.send(token);
+          res.send(
+            "Jwt token: \n " +
+              token +
+              "\n status: " +
+              user.first_name +
+              " " +
+              user.last_name +
+              "!  Logged In"
+          );
         } else {
           // Passwords don't match
           res.json({ error: "User does not exist" });
@@ -80,7 +89,11 @@ users.post("/login", (req, res) => {
       }
     })
     .catch((err) => {
-      res.send("error: " + err);
+        if (!req.body.email || !req.body.password) {
+          res.send("Error: Email or Password not found");
+        } else {
+          res.send("error :" + err);
+        }
     });
 });
 
