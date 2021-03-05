@@ -3,12 +3,12 @@ const users = express.Router();
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
 const User = require("./auth.model");
 
 users.use(cors());
 
 process.env.SECRET_KEY = "secret";
+
 
 //register
 users.post("/register", (req, res) => {
@@ -31,13 +31,31 @@ users.post("/register", (req, res) => {
           userData.password = hash;
           User.create(userData)
             .then((user) => {
-              res.json({ status: user.email + "! Registered" });
+              res.json({ 
+                header: {
+                  message: "Registered successfully",
+                },
+                body:{
+                  _id: user._id,
+                  first_name: user.first_name,
+                  last_name: user.last_name,
+                  phone: user.phone,
+                  gender: user.gender,
+                  email: user.email,
+                  created: today
+                }
+              }
+              );
             })
             .catch((err) => {
-              if (!req.body.email || !req.body.password) {
-                res.send("Error: Email or Password not found");
-              } else {
-                res.send("error :" + err);
+              if (!req.body.email) {
+                res.json({Error: "Email not found"});
+              }
+              else if(!req.body.password){
+                res.json({Error: "Password not found"});
+              }
+              else {
+                res.json({error: err});
               }
             });
         });
@@ -49,6 +67,7 @@ users.post("/register", (req, res) => {
       res.send("error: " + err);
     });
 });
+
 
 //login
 users.post("/login", (req, res) => {
@@ -71,14 +90,20 @@ users.post("/login", (req, res) => {
           /*    let token = jwt.sign(payload, process.env.SECRET_KEY, {
             expiresIn: 1440
           })  */
-          res.send(
-            "Jwt token: \n " +
-              token +
-              "\n status: " +
-              user.first_name +
-              " " +
-              user.last_name +
-              "!  Logged In"
+          res.json({
+           header: {
+              message: "logged in successfully",
+            },
+            body:{
+              _id: user._id,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              phone: user.phone,
+              gender: user.gender,
+              email: user.email,
+              token:token
+            }
+          }
           );
         } else {
           // Passwords don't match
@@ -89,13 +114,18 @@ users.post("/login", (req, res) => {
       }
     })
     .catch((err) => {
-        if (!req.body.email || !req.body.password) {
-          res.send("Error: Email or Password not found");
-        } else {
-          res.send("error :" + err);
-        }
+      if (!req.body.email) {
+        res.json({Error: "Email not found"});
+      }
+      else if(!req.body.password){
+        res.json({Error: "Password not found"});
+      }
+      else {
+        res.json({error: err});
+      }
     });
-});
+});  
+
 
 //user profile
 users.get("/profile", (req, res) => {

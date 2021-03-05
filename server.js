@@ -21,6 +21,9 @@ connection.once("open", function () {
 var contact = require("./contactApis");
 app.use("/gift", contact);
 
+var product = require("./productApis");
+app.use("/gift", product);
+
 var auth = require("./authApis");
 app.use("/gift", auth);
 
