@@ -9,8 +9,9 @@ users.use(cors());
 
 process.env.SECRET_KEY = "secret";
 
-
 //register
+
+let errr = 0;
 users.post("/register", (req, res) => {
   const today = new Date();
   const userData = {
@@ -31,43 +32,72 @@ users.post("/register", (req, res) => {
           userData.password = hash;
           User.create(userData)
             .then((user) => {
-              res.json({ 
+              res.json({
                 header: {
+                  error: errr,
                   message: "Registered successfully",
                 },
-                body:{
+                body: {
                   _id: user._id,
                   first_name: user.first_name,
                   last_name: user.last_name,
                   phone: user.phone,
                   gender: user.gender,
                   email: user.email,
-                  created: today
-                }
-              }
-              );
+                  created: today,
+                },
+              });
             })
             .catch((err) => {
-              if (!req.body.email) {
-                res.json({Error: "Email not found"});
-              }
-              else if(!req.body.password){
-                res.json({Error: "Password not found"});
-              }
-              else {
-                res.json({error: err});
+              if (!req.body.password && !req.body.email) {
+                let e = errr + 2;
+                res.json({
+                  header: {
+                    error: e,
+                    message: "Email and Password Not Found",
+                  },
+                });
+              } else if (!req.body.password) {
+                let e = errr + 1;
+                res.json({
+                  header: {
+                    error: e,
+                    message: "Password Not Found",
+                  },
+                });
+              } else if (!req.body.email) {
+                let e = errr + 1;
+                res.json({
+                  header: {
+                    error: e,
+                    message: "Email Not Found",
+                  },
+                });
+              } else {
+                let e = errr + 1;
+                res.json({
+                  header: {
+                    error: e,
+                    message: err,
+                  },
+                });
               }
             });
         });
       } else {
-        res.json({ error: "User already exists" });
+        let e = errr + 1;
+        res.json({
+          header: {
+            error: e,
+            message: "User Already Exist",
+          },
+        });
       }
     })
     .catch((err) => {
       res.send("error: " + err);
     });
 });
-
 
 //login
 users.post("/login", (req, res) => {
@@ -91,41 +121,68 @@ users.post("/login", (req, res) => {
             expiresIn: 1440
           })  */
           res.json({
-           header: {
+            header: {
+              error: errr,
               message: "logged in successfully",
             },
-            body:{
+            body: {
               _id: user._id,
               first_name: user.first_name,
               last_name: user.last_name,
               phone: user.phone,
               gender: user.gender,
               email: user.email,
-              token:token
-            }
-          }
-          );
+              token: token,
+            },
+          });
         } else {
           // Passwords don't match
-          res.json({ error: "User does not exist" });
+          let e = errr + 1;
+                res.json({
+                  header: {
+                    error: e,
+                    message: "Password Does Not Match",
+                  },
+                });
         }
       } else {
-        res.json({ error: "User does not exist" });
+        let e = errr + 1;
+        res.json({
+          header: {
+            error: e,
+            message: "User doesn't exist",
+          },
+        });
       }
     })
     .catch((err) => {
       if (!req.body.email) {
-        res.json({Error: "Email not found"});
-      }
-      else if(!req.body.password){
-        res.json({Error: "Password not found"});
-      }
-      else {
-        res.json({error: err});
+        let e = errr + 1;
+        res.json({
+          header: {
+            error: e,
+            message: "Email Not Found",
+          },
+        });
+      } else if (!req.body.password) {
+        let e = errr + 1;
+        res.json({
+          header: {
+            error: e,
+            message: "Password Not Found",
+          },
+        });
+      } else {
+        let e = errr + 1;
+        res.json({
+          header: {
+            error: e,
+            message: err,
+          },
+        });
       }
     });
-});  
-
+});
 
 //user profile
 users.get("/profile", (req, res) => {
