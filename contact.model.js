@@ -16,6 +16,10 @@ let contactSchema = new Schema({
 
   message: {
     type: String,
+  },
+
+  photo: {
+    type: String,
   }
 });
 

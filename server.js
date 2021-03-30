@@ -18,6 +18,8 @@ connection.once("open", function () {
   console.log("MongoDB database connection established");
 });
 
+app.use("/uploads", express.static("uploads"));
+
 var contact = require("./contactApis");
 app.use("/gift", contact);
 
