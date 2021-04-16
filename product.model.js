@@ -6,17 +6,26 @@ let productSchema = new Schema({
     type: String,
   },
 
-  price: {
+  category: {
     type: String,
   },
 
-  quantity: {
+  priceOne: {
     type: String,
   },
+
+  priceTwo: {
+    type: String,
+  },
+
 
   description: {
     type: String,
   },
+
+  photo: {
+    type: String,
+  }
 });
 
 module.exports = mongoose.model("product", productSchema);
