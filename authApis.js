@@ -15,10 +15,7 @@ let errr = 0;
 users.post("/register", (req, res) => {
   const today = new Date();
   const userData = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    phone: req.body.phone,
-    gender: req.body.gender,
+    full_name: req.body.full_name,
     email: req.body.email,
     password: req.body.password,
     created: today,
@@ -39,10 +36,7 @@ users.post("/register", (req, res) => {
                 },
                 body: {
                   _id: user._id,
-                  first_name: user.first_name,
-                  last_name: user.last_name,
-                  phone: user.phone,
-                  gender: user.gender,
+                  full_name: user.full_name,
                   email: user.email,
                   created: today,
                 },
@@ -110,10 +104,7 @@ users.post("/login", (req, res) => {
           // Passwords match
           const payload = {
             _id: user._id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            phone: user.phone,
-            gender: user.gender,
+            full_name: user.full_name,
             email: user.email,
           };
           let token = jwt.sign(payload, process.env.SECRET_KEY);
