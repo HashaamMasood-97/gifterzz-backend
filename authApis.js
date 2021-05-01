@@ -118,10 +118,7 @@ users.post("/login", (req, res) => {
             },
             body: {
               _id: user._id,
-              first_name: user.first_name,
-              last_name: user.last_name,
-              phone: user.phone,
-              gender: user.gender,
+              full_name: user.full_name,
               email: user.email,
               token: token,
             },
