@@ -29,6 +29,9 @@ app.use("/gift", product);
 var auth = require("./authApis");
 app.use("/gift", auth);
 
+var order = require("./order.apis");
+app.use("/gift", order);
+
 
 app.listen(PORT, function () {
   console.log("Server in running on PORT " + PORT);
