@@ -12,6 +12,8 @@ order.route('/order/post').post(function(req, res){
         c_name: req.body.c_name,
         c_id: req.body.c_id,
         c_email: req.body.c_email,
+        c_contact: req.body.c_contact,
+        c_address: req.body.c_address,
         totalQty: req.body.totalQty,
         totalPrice: req.body.totalPrice,
         products: req.body.products

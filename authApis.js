@@ -18,6 +18,8 @@ users.post("/register", (req, res) => {
     full_name: req.body.full_name,
     email: req.body.email,
     password: req.body.password,
+    address: req.body.address,
+    contact: req.body.contact,
     created: today,
   };
   User.findOne({
@@ -38,6 +40,8 @@ users.post("/register", (req, res) => {
                   _id: user._id,
                   full_name: user.full_name,
                   email: user.email,
+                  address: user.address,
+                  contact: user.contact,
                   created: today,
                 },
               });
@@ -106,6 +110,8 @@ users.post("/login", (req, res) => {
             _id: user._id,
             full_name: user.full_name,
             email: user.email,
+            address: user.address,
+            contact: user.contact,
           };
           let token = jwt.sign(payload, process.env.SECRET_KEY);
           /*    let token = jwt.sign(payload, process.env.SECRET_KEY, {
@@ -120,18 +126,20 @@ users.post("/login", (req, res) => {
               _id: user._id,
               full_name: user.full_name,
               email: user.email,
+              address: user.address,
+              contact: user.contact,
               token: token,
             },
           });
         } else {
           // Passwords don't match
           let e = errr + 1;
-                res.json({
-                  header: {
-                    error: e,
-                    message: "Password Does Not Match",
-                  },
-                });
+          res.json({
+            header: {
+              error: e,
+              message: "Password Does Not Match",
+            },
+          });
         }
       } else {
         let e = errr + 1;
@@ -172,25 +180,6 @@ users.post("/login", (req, res) => {
     });
 });
 
-//user profile
-users.get("/profile", (req, res) => {
-  var decoded = jwt.verify(
-    req.headers["authorization"],
-    process.env.SECRET_KEY
-  );
-  User.findOne({
-    _id: decoded._id,
-  })
-    .then((user) => {
-      if (user) {
-        res.json(user);
-      } else {
-        res.send("User does not exist");
-      }
-    })
-    .catch((err) => {
-      res.send("error: " + err);
-    });
-});
+
 
 module.exports = users;

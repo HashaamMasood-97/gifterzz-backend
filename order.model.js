@@ -14,6 +14,16 @@ let orderSchema = new Schema({
     type: String,
   },
 
+  
+  c_address: {
+    type: String,
+  },
+
+  
+  c_contact: {
+    type: String,
+  },
+
   totalQty: {
     type: String,
   },
