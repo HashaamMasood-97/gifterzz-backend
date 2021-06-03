@@ -18,15 +18,14 @@ product.get("/product/get", (req, res) => {
 
 //get product category wise
 
-product.get("/product/chocolate", (req, res) =>{
+product.get("/product/chocolate", (req, res) => {
   //accessing parameter for url
   productSchema.find({ category: "Chocolates" }, function (err, gift) {
     res.json(gift);
   });
 });
 
-
-product.get("/product/fashion", (req, res) =>{
+product.get("/product/fashion", (req, res) => {
   //accessing parameter for url
   productSchema.find({ category: "Fashion Accessories" }, function (err, gift) {
     res.json(gift);

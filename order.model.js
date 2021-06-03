@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+
 let orderSchema = new Schema({
   c_name: {
     type: String,
@@ -30,6 +31,10 @@ let orderSchema = new Schema({
 
 
   totalPrice: {
+    type: String,
+  },
+
+  date: {
     type: String,
   },
 
