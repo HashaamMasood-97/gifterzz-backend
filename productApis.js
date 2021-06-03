@@ -32,6 +32,21 @@ product.get("/product/fashion", (req, res) => {
   });
 });
 
+
+product.get("/product/basket", (req, res) => {
+  //accessing parameter for url
+  productSchema.find({ category: "Gift Basket" }, function (err, gift) {
+    res.json(gift);
+  });
+});
+
+product.get("/product/grooming", (req, res) => {
+  //accessing parameter for url
+  productSchema.find({ category: "Grooming Kit" }, function (err, gift) {
+    res.json(gift);
+  });
+});
+
 //
 
 const multer = require("multer");
